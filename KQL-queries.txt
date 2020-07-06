@@ -1,0 +1,12 @@
+//Some example of KQL queries, not tested in production.
+
+//I want to catch a LOLBins - desktopimgdownldr.exe described here https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/
+//I am using the Sysmon with configuration https://github.com/SwiftOnSecurity/sysmon-config
+Event
+| where Source == "Microsoft-Windows-Sysmon"
+| where RenderedDescription has "desktopimgdownldr.exe"
+| extend a = parse_xml(EventData)
+| extend CommandLine = tostring(parse_json(tostring(parse_json(tostring(parse_json(tostring(a.DataItem)).EventData)).Data))[10].["#text"])
+| project TimeGenerated, CommandLine, Computer, EventData, RenderedDescription, UserName
+| sort by TimeGenerated desc 
+
