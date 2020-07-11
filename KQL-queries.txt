@@ -11,7 +11,7 @@ Event
 | sort by TimeGenerated desc 
 
 //I want to catch a LOLBins - CertReq.exe described here https://dtm.uk/certreq/
-//This time I used an approach similar to the one used by @DebugPrivilege in https://identityandsecuritydotcom.files.wordpress.com/2020/04/kql_internals_2020.pdf, i.e. parsing EventData using only the parsing operator.
+//This time I used an approach similar to the one used by @DebugPrivilege in https://identityandsecuritydotcom.files.wordpress.com/2020/04/kql_internals_2020.pdf, i.e. parsing EventData using only the parse operator.
 //I leave EventData so that you can always see the contents of all json
 Event
 | where Source == "Microsoft-Windows-Sysmon" and RenderedDescription has "OriginalFileName: CertReq.exe"
