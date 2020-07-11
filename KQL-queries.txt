@@ -10,3 +10,11 @@ Event
 | project TimeGenerated, CommandLine, Computer, EventData, RenderedDescription, UserName
 | sort by TimeGenerated desc 
 
+//I want to catch a LOLBins - CertReq.exe described here https://dtm.uk/certreq/
+Event
+| where Source == "Microsoft-Windows-Sysmon" and RenderedDescription has "OriginalFileName: CertReq.exe"
+| extend EventFullData = parse_xml(EventData)
+| parse EventData with * 'OriginalFileName">'OriginalFileName '</Data>'*
+| parse EventData with * 'CommandLine">'Commandline '</Data>'*
+| project TimeGenerated, OriginalFileName, Commandline, Computer, EventID, SourceSystem, EventFullData
+| sort by TimeGenerated desc 
